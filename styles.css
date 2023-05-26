@@ -1,0 +1,38 @@
+body {
+  margin:0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  
+}
+#header {
+  flex: 1 1;
+  background-color: lightblue;
+  display: flex;
+}
+#header div:nth-child(odd){
+  flex: 1 1;
+}
+#title {
+  display: flex;
+  flex: 4 1;
+  justify-content: center;
+}
+#main {
+  flex: 6 1;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  background-color: lightgreen;
+  grid-template-columns: 25vw 25vw 25vw;
+  grid-template-rows: 20vh 20vh 20vh;
+  grid-gap: 2vh;
+}
+#main div {
+  background-color: red;
+}
+#footer {
+  flex: 1 1;
+  background-color: lightblue;
+}
