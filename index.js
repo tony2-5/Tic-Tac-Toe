@@ -57,7 +57,7 @@ const game = (() => {
   }
 
   /* function for when winner is found */
-  const winner = () => {
+  const winner = (draw) => {
     const main = document.getElementById("main");
     const endGameDiv = document.getElementById("endGame");
     const playerTurnInfo = document.getElementById("playerTurn");
@@ -75,7 +75,11 @@ const game = (() => {
     });
     button.setAttribute("id","newGame");
     button.innerText = "New Game";
-    h1.innerText = `${game.getCurrentPlayer().name} WINS!`
+    if(draw) {
+      h1.innerText = "IT'S A DRAW!"
+    } else {
+      h1.innerText = `${game.getCurrentPlayer().name} WINS!`
+    }
     // append winner and new game button to end game screen
     endGameDiv.append(h1,button);
   }
@@ -87,15 +91,22 @@ const game = (() => {
     // flatten gameBoardArr to only provide indexes of Xs and Os
     let Xindicies = arr.flatMap((value, index) => value === "X" ? index : []);
     let Oindicies = arr.flatMap((value, index) => value === "O" ? index : []);
-    winningIndexes.forEach((value) => {
+    for(let i = 0; i<winningIndexes.length;i++) {
       // check if Xindices or Oindicies array contain any of the winning combinations
-      if(value.every(value => Xindicies.includes(value))) {
-        winner();
+      if(winningIndexes[i].every(value => Xindicies.includes(value))) {
+        winner(false);
+        break;
       }
-      if(value.every(value => Oindicies.includes(value))) {
-        winner();
+      if(winningIndexes[i].every(value => Oindicies.includes(value))) {
+        winner(false);
+        break;
       }
-    })
+      // draw functionality
+      if(Xindicies.length === 5 && Oindicies.length === 4) {
+        winner(true);
+        break;
+      }
+    }
   }
   return {initializePlayers, getCurrentPlayer, switchPlayers, checkWinner};
 })();
