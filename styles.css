@@ -12,7 +12,10 @@ body {
   display: flex;
 }
 #header div:nth-child(odd){
-  flex: 1 1;
+  flex: 2 1;
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }
 #title {
   display: flex;
@@ -21,7 +24,7 @@ body {
 }
 #main {
   flex: 6 1;
-  display: grid;
+  display: flex;
   justify-content: center;
   align-content: center;
   background-color: lightgreen;
@@ -31,6 +34,21 @@ body {
 }
 #main div {
   background-color: red;
+}
+#startGameDiv {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#startGame {
+  display: flex;
+  gap: 10vw;
+}
+#startGame div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #footer {
   flex: 1 1;
