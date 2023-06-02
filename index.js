@@ -1,4 +1,4 @@
-// gameboard module
+/* gameboard module */
 const gameBoard = () => {
   // Array to store info on gameboard
   let gameBoardArr = []
@@ -22,20 +22,21 @@ const gameBoard = () => {
         // replace array indexes with X or O for checkWinner function
         gameBoardArr[index] = game.getCurrentPlayer().identifier;
         // switch player
-        game.switchPlayers();
         game.checkWinner(gameBoardArr);
+        game.switchPlayers();
       }
     })
   })
 };
 
-// player object
+/* player object */
 const player = (name, identifier) => {
   return {name, identifier};
 }
 
 const game = (() => {
-  // initialize two player objects
+
+  /* initialize two player objects */
   const players = [];
   let currentPlayer;
   const playerTurnInfo = document.getElementById("playerTurn");
@@ -45,14 +46,41 @@ const game = (() => {
     currentPlayer = players[0];
     playerTurnInfo.innerText = `${currentPlayer.name}'s Turn`;
   }
-  // get current player
+
+  /* get current player */
   const getCurrentPlayer = () => currentPlayer;
-  // switch player
+
+  /* switch player */
   const switchPlayers = () => { 
     currentPlayer = currentPlayer === players[0] ? players[1]:players[0];
     playerTurnInfo.innerText = `${currentPlayer.name}'s Turn`;
   }
-  // check for winner
+
+  /* function for when winner is found */
+  const winner = () => {
+    const main = document.getElementById("main");
+    const endGameDiv = document.getElementById("endGame");
+    const playerTurnInfo = document.getElementById("playerTurn");
+    // hides player turn info in top left of page
+    playerTurnInfo.style.display =  "none";
+    // hides game board
+    main.style.display = "none";
+    // makes end game screen visible
+    endGameDiv.style.display = "flex";
+    // creating header for announcing winner and button for starting new game
+    const h1 = document.createElement("h1");
+    const button = document.createElement("button");
+    button.addEventListener("click", () => {
+      location.reload();
+    });
+    button.setAttribute("id","newGame");
+    button.innerText = "New Game";
+    h1.innerText = `${game.getCurrentPlayer().name} WINS!`
+    // append winner and new game button to end game screen
+    endGameDiv.append(h1,button);
+  }
+
+  /* check for winner */
   const checkWinner = (arr) => {
     // winning array index combinations
     let winningIndexes = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
@@ -62,16 +90,17 @@ const game = (() => {
     winningIndexes.forEach((value) => {
       // check if Xindices or Oindicies array contain any of the winning combinations
       if(value.every(value => Xindicies.includes(value))) {
-        console.log("X WINS");
+        winner();
       }
       if(value.every(value => Oindicies.includes(value))) {
-        console.log("O WINS");
+        winner();
       }
     })
   }
   return {initializePlayers, getCurrentPlayer, switchPlayers, checkWinner};
 })();
 
+/* start game module */
 const startGame = (() => {
   const startGameForm = document.getElementById("startGame");
   // event listener that gets user submitted names for players, initializes players, and starts game.
@@ -79,8 +108,11 @@ const startGame = (() => {
     e.preventDefault();
     const main = document.getElementById("main");
     const startGameDiv = document.getElementById("startGameDiv");
+    // remove starting screen
     startGameDiv.style.display = "none";
+    // make game board visible
     main.style.display = "grid";
+    //initialize players and start game
     game.initializePlayers(startGameForm.player1Name.value,startGameForm.player2Name.value);
     e.target.reset();
     gameBoard();
