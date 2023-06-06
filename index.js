@@ -16,9 +16,15 @@ const gameBoard = () => {
       // if statement to allow each sqaure to be played only once
       if(e.target.childNodes.length == 0) {
         // append X or O to sqaure
-        const h1 = document.createElement("h1");
-        h1.innerText = game.getCurrentPlayer().identifier;
-        e.target.appendChild(h1);
+        const img = document.createElement("img");
+        img.setAttribute("class","XOgame")
+        let ident = game.getCurrentPlayer().identifier;
+        if(ident === "X") {
+         img.setAttribute("src","images/letter-x-svgrepo-com.svg")
+        } else if(ident === "O") {
+          img.setAttribute("src","images/letter-o-svgrepo-com.svg")
+        }
+        e.target.appendChild(img);
         // replace array indexes with X or O for checkWinner function
         gameBoardArr[index] = game.getCurrentPlayer().identifier;
         // switch player
